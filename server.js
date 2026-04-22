@@ -40,7 +40,19 @@ socketHandler(io, db);
 // Error handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`🚀 Ledo Friend Server running on port ${PORT}`);
+// Root route for testing
+app.get('/', (req, res) => {
+  res.send('Ledo Friend API is running on Vercel 🚀');
 });
+
+const PORT = process.env.PORT || 3000;
+
+// Only listen locally, Vercel handles the listening automatically
+if (process.env.NODE_ENV !== 'production') {
+  server.listen(PORT, () => {
+    console.log(`🚀 Ledo Friend Server running on port ${PORT}`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
